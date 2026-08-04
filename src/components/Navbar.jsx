@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const links = ['Home', 'About', 'Skills', 'Projects', 'Contact']
+const links = ['Home', 'About', 'Skills', 'Projects', 'LeetCode', 'Contact']
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
