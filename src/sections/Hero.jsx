@@ -225,14 +225,17 @@ export default function Hero() {
               background: 'linear-gradient(135deg, #1a1a2e, #16213e)',
               border: '1px solid rgba(255,255,255,0.08)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
             }}>
-              <div style={{
-                fontFamily: "'Fira Code', monospace",
-                fontSize: '5rem', fontWeight: 900,
-                background: 'linear-gradient(135deg, #a78bfa, #38bdf8)',
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-                userSelect: 'none',
-              }}>AD</div>
+              <img
+                src="/profile.jpg"
+                alt="Anurag Dubey"
+                style={{
+                  width: '100%', height: '100%',
+                  objectFit: 'cover', objectPosition: 'center top',
+                  borderRadius: '50%',
+                }}
+              />
             </div>
 
             <FloatingCard style={{ top: -10, right: -50 }} delay={0.8}>
