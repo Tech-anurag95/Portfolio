@@ -6,15 +6,15 @@ const USERNAME = 'CodewithDubey'
 
 // Fallback data (your real stats as of Aug 2026)
 const FALLBACK = {
-  totalSolved: 327,
+  totalSolved: 328,
   easySolved: 267,
-  mediumSolved: 57,
+  mediumSolved: 58,
   hardSolved: 3,
-  submissions: 564,
-  acceptanceRate: 64.5,
+  submissions: 365,
+  acceptanceRate: 89.9,
   streak: 29,
   activeDays: 38,
-  ranking: 431921,
+  ranking: 428291,
 }
 
 async function fetchStats() {
