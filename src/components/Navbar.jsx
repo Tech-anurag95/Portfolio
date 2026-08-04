@@ -52,7 +52,6 @@ export default function Navbar() {
       >
         Anurag Dubey
       </motion.div>
-      </motion.div>
 
       {/* Desktop links */}
       <ul style={{ display: 'flex', gap: '2.5rem', listStyle: 'none', margin: 0 }}

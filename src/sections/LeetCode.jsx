@@ -18,38 +18,27 @@ const FALLBACK = {
 }
 
 async function fetchStats() {
-  // Try alfa-leetcode-api (most reliable public API)
   try {
-    const [solvedRes, statsRes] = await Promise.all([
-      fetch(`https://alfa-leetcode-api.onrender.com/${USERNAME}/solved`),
-      fetch(`https://alfa-leetcode-api.onrender.com/userProfile/${USERNAME}`),
-    ])
-    const solved = await solvedRes.json()
-    const profile = await statsRes.json()
+    // Call our own Vercel serverless proxy (no CORS issues)
+    const res = await fetch('/api/leetcode')
+    if (!res.ok) throw new Error('Proxy failed')
+    const data = await res.json()
+    if (data.error || !data.totalSolved) throw new Error('Bad data')
 
-    const easy   = solved.easySolved   ?? 0
-    const medium = solved.mediumSolved ?? 0
-    const hard   = solved.hardSolved   ?? 0
-    const total  = solved.solvedProblem ?? (easy + medium + hard)
-
-    if (total > 0) {
-      return {
-        totalSolved:    total,
-        easySolved:     easy,
-        mediumSolved:   medium,
-        hardSolved:     hard,
-        submissions:    profile.totalSubmissions?.[0]?.submissions ?? FALLBACK.submissions,
-        acceptanceRate: profile.totalSubmissions?.[0]?.count
-          ? Math.round((total / profile.totalSubmissions[0].count) * 100 * 10) / 10
-          : FALLBACK.acceptanceRate,
-        streak:      profile.streak      ?? FALLBACK.streak,
-        activeDays:  profile.totalActiveDays ?? FALLBACK.activeDays,
-        ranking:     profile.ranking     ?? FALLBACK.ranking,
-      }
+    return {
+      totalSolved:    data.totalSolved,
+      easySolved:     data.easySolved,
+      mediumSolved:   data.mediumSolved,
+      hardSolved:     data.hardSolved,
+      submissions:    data.totalSubmissions,
+      acceptanceRate: data.totalSolved && data.totalSubmissions
+        ? Math.round((data.totalSolved / data.totalSubmissions) * 100 * 10) / 10
+        : FALLBACK.acceptanceRate,
+      streak:      FALLBACK.streak,
+      activeDays:  FALLBACK.activeDays,
+      ranking:     data.ranking || FALLBACK.ranking,
     }
-    throw new Error('empty data')
   } catch {
-    // Use verified fallback stats
     return FALLBACK
   }
 }
