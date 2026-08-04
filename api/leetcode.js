@@ -1,15 +1,20 @@
 export default async function handler(req, res) {
-  // Allow CORS from your own site
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 
   const username = 'CodewithDubey'
 
-  const query = `
+  // Query 1 — solved counts + ranking
+  const query1 = `
     query getUserProfile($username: String!) {
       matchedUser(username: $username) {
         submitStats {
           acSubmissionNum {
+            difficulty
+            count
+            submissions
+          }
+          totalSubmissionNum {
             difficulty
             count
             submissions
@@ -19,40 +24,75 @@ export default async function handler(req, res) {
           ranking
         }
       }
-      userContestRanking(username: $username) {
-        attendedContestsCount
+    }
+  `
+
+  // Query 2 — streak and active days
+  const query2 = `
+    query getUserStreak($username: String!) {
+      streakCounter {
+        streakCount
+        daysSkipped
+        currentDayCompleted
+      }
+      matchedUser(username: $username) {
+        userCalendar {
+          streak
+          totalActiveDays
+        }
       }
     }
   `
 
   try {
-    const response = await fetch('https://leetcode.com/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Referer': 'https://leetcode.com',
-        'User-Agent': 'Mozilla/5.0',
-      },
-      body: JSON.stringify({ query, variables: { username } }),
-    })
+    const [r1, r2] = await Promise.all([
+      fetch('https://leetcode.com/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Referer': 'https://leetcode.com',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        },
+        body: JSON.stringify({ query: query1, variables: { username } }),
+      }),
+      fetch('https://leetcode.com/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Referer': 'https://leetcode.com',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        },
+        body: JSON.stringify({ query: query2, variables: { username } }),
+      }),
+    ])
 
-    if (!response.ok) throw new Error(`LeetCode API error: ${response.status}`)
+    const d1 = await r1.json()
+    const d2 = await r2.json()
 
-    const data = await response.json()
-    const stats = data?.data?.matchedUser?.submitStats?.acSubmissionNum ?? []
+    const acStats    = d1?.data?.matchedUser?.submitStats?.acSubmissionNum    ?? []
+    const totalStats = d1?.data?.matchedUser?.submitStats?.totalSubmissionNum ?? []
 
-    const all    = stats.find(s => s.difficulty === 'All')    ?? {}
-    const easy   = stats.find(s => s.difficulty === 'Easy')   ?? {}
-    const medium = stats.find(s => s.difficulty === 'Medium') ?? {}
-    const hard   = stats.find(s => s.difficulty === 'Hard')   ?? {}
+    const ac    = acStats.find(s => s.difficulty === 'All')    ?? {}
+    const easy  = acStats.find(s => s.difficulty === 'Easy')   ?? {}
+    const med   = acStats.find(s => s.difficulty === 'Medium') ?? {}
+    const hard  = acStats.find(s => s.difficulty === 'Hard')   ?? {}
+    const total = totalStats.find(s => s.difficulty === 'All') ?? {}
+
+    const calendar   = d2?.data?.matchedUser?.userCalendar ?? {}
+    const totalSolved = ac.count ?? 0
 
     res.status(200).json({
-      totalSolved:      all.count       ?? 0,
-      easySolved:       easy.count      ?? 0,
-      mediumSolved:     medium.count    ?? 0,
-      hardSolved:       hard.count      ?? 0,
-      totalSubmissions: 572,            // LeetCode API doesn't expose all-time total; using verified value
-      ranking:          data?.data?.matchedUser?.profile?.ranking ?? 0,
+      totalSolved,
+      easySolved:       easy.count         ?? 0,
+      mediumSolved:     med.count          ?? 0,
+      hardSolved:       hard.count         ?? 0,
+      totalSubmissions: total.submissions  ?? ac.submissions ?? 0,
+      acceptanceRate:   total.submissions
+        ? Math.round((totalSolved / total.submissions) * 100 * 10) / 10
+        : 0,
+      ranking:          d1?.data?.matchedUser?.profile?.ranking ?? 0,
+      streak:           calendar.streak         ?? 0,
+      activeDays:       calendar.totalActiveDays ?? 0,
     })
   } catch (err) {
     res.status(500).json({ error: err.message })

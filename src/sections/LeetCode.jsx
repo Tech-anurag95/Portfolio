@@ -4,7 +4,6 @@ import { useInView } from '../hooks/useInView'
 
 const USERNAME = 'CodewithDubey'
 
-// Fallback data (your real stats as of Aug 2026)
 const FALLBACK = {
   totalSolved: 328,
   easySolved: 267,
@@ -19,24 +18,20 @@ const FALLBACK = {
 
 async function fetchStats() {
   try {
-    // Call our own Vercel serverless proxy (no CORS issues)
     const res = await fetch('/api/leetcode')
     if (!res.ok) throw new Error('Proxy failed')
     const data = await res.json()
     if (data.error || !data.totalSolved) throw new Error('Bad data')
-
     return {
       totalSolved:    data.totalSolved,
       easySolved:     data.easySolved,
       mediumSolved:   data.mediumSolved,
       hardSolved:     data.hardSolved,
-      submissions:    data.totalSubmissions,
-      acceptanceRate: data.totalSolved && data.totalSubmissions
-        ? Math.round((data.totalSolved / data.totalSubmissions) * 100 * 10) / 10
-        : FALLBACK.acceptanceRate,
-      streak:      FALLBACK.streak,
-      activeDays:  FALLBACK.activeDays,
-      ranking:     data.ranking || FALLBACK.ranking,
+      submissions:    data.totalSubmissions || FALLBACK.submissions,
+      acceptanceRate: data.acceptanceRate   || FALLBACK.acceptanceRate,
+      streak:         data.streak           || FALLBACK.streak,
+      activeDays:     data.activeDays       || FALLBACK.activeDays,
+      ranking:        data.ranking          || FALLBACK.ranking,
     }
   } catch {
     return FALLBACK
