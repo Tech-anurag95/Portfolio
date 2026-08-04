@@ -16,13 +16,8 @@ export default function Footer() {
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.2rem',
       position: 'relative', zIndex: 1,
     }}>
-      <div style={{
-        fontFamily: "'Fira Code', monospace", fontWeight: 700, fontSize: '1.2rem',
-        background: 'linear-gradient(135deg, #a78bfa, #38bdf8)',
-        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-        fontVariantLigatures: 'none', letterSpacing: '-1px',
-      }}>
-        &lt;AD/&gt;
+      <div style={{ color: 'var(--primary-light)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+        Anurag Dubey
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
         {socials.map(({ Icon, href, label }) => (

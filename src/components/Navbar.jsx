@@ -47,18 +47,11 @@ export default function Navbar() {
       {/* Logo */}
       <motion.div
         whileHover={{ scale: 1.05 }}
-        style={{
-          fontFamily: "'Fira Code', monospace",
-          fontWeight: 700, fontSize: '1.3rem',
-          background: 'linear-gradient(135deg, #a78bfa, #38bdf8)',
-          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text', cursor: 'pointer',
-          fontVariantLigatures: 'none',
-          letterSpacing: '-1px',
-        }}
+        style={{ cursor: 'pointer', fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary-light)' }}
         onClick={() => navTo('home')}
       >
-        &lt;AD/&gt;
+        Anurag Dubey
+      </motion.div>
       </motion.div>
 
       {/* Desktop links */}
