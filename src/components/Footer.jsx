@@ -20,8 +20,9 @@ export default function Footer() {
         fontFamily: "'Fira Code', monospace", fontWeight: 700, fontSize: '1.2rem',
         background: 'linear-gradient(135deg, #a78bfa, #38bdf8)',
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+        fontVariantLigatures: 'none', letterSpacing: '-1px',
       }}>
-        &lt;AD /&gt;
+        &lt;AD/&gt;
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
         {socials.map(({ Icon, href, label }) => (

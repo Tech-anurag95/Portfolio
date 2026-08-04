@@ -53,10 +53,12 @@ export default function Navbar() {
           background: 'linear-gradient(135deg, #a78bfa, #38bdf8)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           backgroundClip: 'text', cursor: 'pointer',
+          fontVariantLigatures: 'none',
+          letterSpacing: '-1px',
         }}
         onClick={() => navTo('home')}
       >
-        &lt;AD /&gt;
+        &lt;AD/&gt;
       </motion.div>
 
       {/* Desktop links */}
