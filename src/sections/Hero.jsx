@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import ParticleField from '../components/ParticleField'
 import { FiGithub, FiLinkedin, FiMail, FiArrowDown, FiCode } from 'react-icons/fi'
 
 const phrases = [
@@ -95,7 +94,6 @@ export default function Hero() {
 
   return (
     <section id="home" style={{ minHeight: '100vh', position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-      <ParticleField />
 
       {/* Gradient blobs */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
