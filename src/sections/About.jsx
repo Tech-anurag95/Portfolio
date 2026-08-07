@@ -21,10 +21,9 @@ const cards = [
 ]
 
 const stats = [
-  { value: 3,   suffix: '+',   label: 'Projects Built' },
-  { value: 327, suffix: '',    label: 'LeetCode Solved' },
-  { value: 564, suffix: '',    label: 'Submissions / Year' },
-  { value: 38,  suffix: '',    label: 'Active Days' },
+  { value: 3,  suffix: '+', label: 'Projects Built' },
+  { value: 3,  suffix: 'rd Year', label: 'B.Tech' },
+  { value: 2,  suffix: '+', label: 'Tech Stacks' },
 ]
 
 function AnimatedCount({ target, inView }) {
@@ -126,7 +125,7 @@ export default function About() {
           {cards.map((card, i) => <AboutCard key={i} card={card} delay={i * 0.13} />)}
         </div>
 
-        {/* Stats row — all real LeetCode numbers */}
+        {/* Stats row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -147,32 +146,6 @@ export default function About() {
               )}
             </>
           ))}
-        </motion.div>
-
-        {/* LeetCode CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          style={{ textAlign: 'center', marginTop: '1.5rem' }}
-        >
-          <motion.a
-            href="https://leetcode.com/u/CodewithDubey"
-            target="_blank" rel="noopener noreferrer"
-            whileHover={{ scale: 1.04, boxShadow: '0 6px 24px rgba(250,173,20,0.25)' }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-              padding: '0.65rem 1.6rem', borderRadius: 50,
-              background: 'rgba(250,173,20,0.08)',
-              border: '1px solid rgba(250,173,20,0.3)',
-              color: '#faad14', fontSize: '0.88rem', fontWeight: 600,
-              textDecoration: 'none', transition: 'all 0.3s',
-            }}
-          >
-            <span style={{ fontSize: '1.1rem' }}>🟡</span>
-            View LeetCode Profile — CodewithDubey
-          </motion.a>
         </motion.div>
       </div>
     </section>
