@@ -1,0 +1,40 @@
+name: LeetCode Auto Sync
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # runs every 6 hours automatically
+  workflow_dispatch:          # also allows manual trigger from GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run LeetCode sync
+        env:
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+          LEETCODE_CSRF: ${{ secrets.LEETCODE_CSRF }}
+        run: python leetcode-push/auto_sync.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add leetcode-solutions/
+          git diff --staged --quiet || git commit -m "🤖 Auto-sync LeetCode solutions [$(date +'%Y-%m-%d')]"
+          git push
