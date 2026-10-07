@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from '../hooks/useInView'
 import { FiMail, FiMapPin, FiSend, FiGithub, FiLinkedin, FiCode } from 'react-icons/fi'
@@ -12,12 +12,11 @@ import emailjs from '@emailjs/browser'
 // 4. Go to Account → API Keys → copy your Public Key below
 const EMAILJS_SERVICE_ID  = 'service_204oypj'
 const EMAILJS_TEMPLATE_ID = 'template_yx6f69j'
-const EMAILJS_PUBLIC_KEY  = 'KkiI4efpPbeJ6pupD'
+const EMAILJS_PUBLIC_KEY  = 'Kkil4efpPbeJ6pupD'
 // ──────────────────────────────────────────────────────────────────
 
 export default function Contact() {
   const [ref, inView] = useInView()
-  const formRef = useRef(null)
   const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '' })
   const [status, setStatus] = useState('idle')
   const [error, setError]   = useState('')
@@ -36,10 +35,15 @@ export default function Contact() {
 
     setStatus('sending')
     try {
-      await emailjs.sendForm(
+      await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        formRef.current,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          subject: form.subject,
+          message: form.message,
+        },
         { publicKey: EMAILJS_PUBLIC_KEY }
       )
       setStatus('sent')
@@ -49,7 +53,11 @@ export default function Contact() {
       }, 3000)
     } catch (err) {
       setStatus('idle')
-      setError('Failed to send. Please try again or email directly.')
+      console.error('EmailJS failed to send the contact form:', err)
+      const details = err?.text || err?.message
+      setError(details
+        ? `Failed to send: ${details}`
+        : 'Failed to send. Please try again or email directly.')
     }
   }
 
@@ -127,7 +135,7 @@ export default function Contact() {
           </motion.div>
 
           {/* Form */}
-          <motion.form onSubmit={handleSubmit} ref={formRef}
+          <motion.form onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}

@@ -4,26 +4,26 @@ import { useInView } from '../hooks/useInView'
 
 const categories = [
   {
+    icon: '📊', label: 'Data Analytics',
+    skills: ['Python', 'Pandas'],
+    color: '#06b6d4',
+  },
+  {
     icon: '🖥️', label: 'Frontend',
     skills: ['React', 'HTML5', 'CSS3', 'JavaScript'],
     color: '#7c3aed',
   },
   {
-    icon: '📊', label: 'Data Analytics',
-    skills: ['Python', 'Pandas', 'Excel', 'SQLite / SQL'],
-    color: '#06b6d4',
-  },
-  {
     icon: '🛠️', label: 'Tools & Others',
-    skills: ['Git', 'GitHub', 'DSA (Python)', 'VS Code'],
+    skills: ['SQL', 'Power BI', 'Excel', 'Git', 'GitHub'],
     color: '#f0abfc',
   },
 ]
 
 const techStack = [
+  'Python', 'Pandas',
   'React', 'HTML5', 'CSS3', 'JavaScript',
-  'Python', 'Pandas', 'SQLite', 'Excel',
-  'Git', 'GitHub', 'VS Code', 'DSA',
+  'SQL', 'Power BI', 'Excel', 'Git', 'GitHub',
 ]
 
 function SkillPill({ name, color }) {
