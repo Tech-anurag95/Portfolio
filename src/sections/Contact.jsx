@@ -9,6 +9,7 @@ import emailjs from '@emailjs/browser'
 // 2. Create an Email Service (Gmail) → copy Service ID below
 // 3. Create an Email Template → copy Template ID below
 //    Template variables: {{from_name}}, {{from_email}}, {{subject}}, {{message}}
+//    Note: {{message}} now contains the custom formatted template
 // 4. Go to Account → API Keys → copy your Public Key below
 const EMAILJS_SERVICE_ID  = 'service_204oypj'
 const EMAILJS_TEMPLATE_ID = 'template_yx6f69j'
@@ -27,6 +28,37 @@ export default function Contact() {
     e.preventDefault()
     setError('')
 
+    // Validate required fields
+    if (!form.email.trim()) {
+      setError('Please fill in all required fields')
+      return
+    }
+    if (!form.subject.trim()) {
+      setError('Please fill in all required fields')
+      return
+    }
+    if (!form.message.trim()) {
+      setError('Please fill in all required fields')
+      return
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(form.email)) {
+      setError('Invalid email format')
+      return
+    }
+
+    // Validate field lengths
+    if (form.subject.trim().length > 200) {
+      setError('Subject must be 200 characters or less')
+      return
+    }
+    if (form.message.trim().length > 5000) {
+      setError('Message must be 5000 characters or less')
+      return
+    }
+
     // If EmailJS is not configured yet, show a helpful message
     if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID') {
       setError('EmailJS is not configured yet. See the setup guide below.')
@@ -35,14 +67,25 @@ export default function Contact() {
 
     setStatus('sending')
     try {
+      // Create formatted message using the custom template
+      const formattedMessage = `Hello, you have a new message from your portfolio!
+
+Email: ${form.email}
+
+Subject: ${form.subject.trim()}
+
+Message:
+
+${form.message}`
+
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
           from_name: form.name,
           from_email: form.email,
-          subject: form.subject,
-          message: form.message,
+          subject: form.subject.trim(),
+          message: formattedMessage,
         },
         { publicKey: EMAILJS_PUBLIC_KEY }
       )
