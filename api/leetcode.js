@@ -80,15 +80,17 @@ export default async function handler(req, res) {
 
     const calendar   = d2?.data?.matchedUser?.userCalendar ?? {}
     const totalSolved = ac.count ?? 0
+    const acceptedSubmissions = ac.submissions ?? 0
+    const totalSubmissions = total.submissions ?? 0
 
     res.status(200).json({
       totalSolved,
       easySolved:       easy.count         ?? 0,
       mediumSolved:     med.count          ?? 0,
       hardSolved:       hard.count         ?? 0,
-      totalSubmissions: total.submissions  ?? ac.submissions ?? 0,
-      acceptanceRate:   total.submissions
-        ? Math.round((totalSolved / total.submissions) * 100 * 10) / 10
+      totalSubmissions: totalSubmissions,
+      acceptanceRate:   totalSubmissions
+        ? Math.round((acceptedSubmissions / totalSubmissions) * 100 * 10) / 10
         : 0,
       ranking:          d1?.data?.matchedUser?.profile?.ranking ?? 0,
       streak:           calendar.streak         ?? 0,

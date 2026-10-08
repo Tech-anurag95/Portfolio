@@ -10,7 +10,7 @@ const FALLBACK = {
   mediumSolved: 58,
   hardSolved: 3,
   submissions: 572,
-  acceptanceRate: 57.3,
+  acceptanceRate: 62.4,
   streak: 29,
   activeDays: 38,
   ranking: 428291,
