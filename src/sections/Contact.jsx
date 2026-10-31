@@ -68,13 +68,8 @@ export default function Contact() {
 
     setStatus('sending')
     try {
-      // Your EmailJS template ('template_yx6f69j') expects:
-      // {{subject}}, {{name}}, and {{mesaage}}
-      // We include the sender's email inside mesaage so you can easily reply to them
-      const mesaageContent = `Sender Email: ${form.email.trim()}
-
-Message:
-${form.message.trim()}`
+      // EmailJS template expects: {{subject}}, {{name}}, {{mesaage}}, {{email}}
+      const mesaageContent = `${form.message.trim()}`
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,
@@ -83,11 +78,11 @@ ${form.message.trim()}`
           // Matches EmailJS template parameters
           name: form.name.trim(),
           subject: form.subject.trim(),
+          email: form.email.trim(),
           mesaage: mesaageContent,
 
           // Additional fields for compatibility
           message: form.message.trim(),
-          email: form.email.trim(),
           from_name: form.name.trim(),
           from_email: form.email.trim(),
           reply_to: form.email.trim(),
