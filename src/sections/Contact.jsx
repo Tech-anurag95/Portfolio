@@ -5,12 +5,9 @@ import { FiMail, FiMapPin, FiSend, FiGithub, FiLinkedin, FiCode } from 'react-ic
 import emailjs from '@emailjs/browser'
 
 // ─── EmailJS config ───────────────────────────────────────────────
-// 1. Sign up free at https://www.emailjs.com
-// 2. Create an Email Service (Gmail) → copy Service ID below
-// 3. Create an Email Template → copy Template ID below
-//    Template variables: {{from_name}}, {{from_email}}, {{subject}}, {{message}}
-//    Note: {{message}} now contains the custom formatted template
-// 4. Go to Account → API Keys → copy your Public Key below
+// Service ID:  service_204oypj
+// Template ID: template_yx6f69j
+// Template parameters: {{subject}}, {{name}}, {{mesaage}}, {{email}}, {{reply_to}}
 const EMAILJS_SERVICE_ID  = 'service_204oypj'
 const EMAILJS_TEMPLATE_ID = 'template_yx6f69j'
 const EMAILJS_PUBLIC_KEY  = 'Kkil4efpPbeJ6pupD'
@@ -29,6 +26,10 @@ export default function Contact() {
     setError('')
 
     // Validate required fields
+    if (!form.name.trim()) {
+      setError('Please fill in all required fields')
+      return
+    }
     if (!form.email.trim()) {
       setError('Please fill in all required fields')
       return
@@ -67,25 +68,29 @@ export default function Contact() {
 
     setStatus('sending')
     try {
-      // Create formatted message using the custom template
-      const formattedMessage = `Hello, you have a new message from your portfolio!
-
-Email: ${form.email}
-
-Subject: ${form.subject.trim()}
+      // Your EmailJS template ('template_yx6f69j') expects:
+      // {{subject}}, {{name}}, and {{mesaage}}
+      // We include the sender's email inside mesaage so you can easily reply to them
+      const mesaageContent = `Sender Email: ${form.email.trim()}
 
 Message:
-
-${form.message}`
+${form.message.trim()}`
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name: form.name,
-          from_email: form.email,
+          // Matches EmailJS template parameters
+          name: form.name.trim(),
           subject: form.subject.trim(),
-          message: formattedMessage,
+          mesaage: mesaageContent,
+
+          // Additional fields for compatibility
+          message: form.message.trim(),
+          email: form.email.trim(),
+          from_name: form.name.trim(),
+          from_email: form.email.trim(),
+          reply_to: form.email.trim(),
         },
         { publicKey: EMAILJS_PUBLIC_KEY }
       )
