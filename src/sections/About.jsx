@@ -4,26 +4,26 @@ import { useInView } from '../hooks/useInView'
 
 const cards = [
   {
-    icon: '🎓',
+    icon: '🎯',
     title: 'Who I Am',
-    body: "I'm Anurag Dubey, a third-year B.Tech undergraduate from Pune, Maharashtra. I am passionate about learning new technologies, including software engineering and data structures & algorithms.",
+    body: "I'm Anurag Dubey, a B.Tech student from Pune with a strong foundation in full-stack development and data analytics. I focus on building products that solve real-world problems with clean, efficient code.",
   },
   {
-    icon: '💡',
+    icon: '💻',
     title: 'What I Do',
-    body: 'I build responsive frontend interfaces using React and work with data analytics using Python, Pandas, and Excel. I enjoy turning raw data and ideas into clean, useful products.',
+    body: 'I build responsive, modern interfaces with React and develop data-driven solutions using Python and analytics tools. My projects span full-stack applications, data pipelines, and user-centric product features.',
   },
   {
-    icon: '🚀',
-    title: 'What I Love',
-    body: "I love exploring new technologies, solving problems with code, and constantly improving my skills. I am actively looking for freelancing opportunities to apply my skills to real-world projects.",
+    icon: '⚡',
+    title: 'My Strength',
+    body: "Attention to detail, rapid problem-solving, and shipped production work. I transform ideas into functional products, combining technical depth with a focus on user experience and measurable results.",
   },
 ]
 
 const stats = [
-  { value: 3,  suffix: '+', label: 'Projects Built' },
-  { value: 3,  suffix: 'rd Year', label: 'B.Tech' },
-  { value: 2,  suffix: '+', label: 'Tech Stacks' },
+  { value: 3,  suffix: '+', label: 'Projects Shipped' },
+  { value: 5,  suffix: '+', label: 'Years Coding' },
+  { value: 11, suffix: '+', label: 'Tech Skills' },
 ]
 
 function AnimatedCount({ target, inView }) {

@@ -24,6 +24,7 @@ body {
   color: var(--text);
   overflow-x: hidden;
   cursor: none;
+  line-height: 1.6;
 }
 
 ::-webkit-scrollbar { width: 4px; }
@@ -59,7 +60,8 @@ button { cursor: none; }
 .section-title {
   font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .gradient-text {

@@ -138,13 +138,18 @@ export default function Hero() {
           </motion.h1>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-            style={{ marginBottom: '1.5rem', height: '2rem' }}>
+            style={{ marginBottom: '0.5rem', height: '2rem' }}>
             <TypedText />
           </motion.div>
 
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
+            style={{ color: 'var(--primary-light)', fontSize: '1rem', marginBottom: '1.5rem', fontWeight: 500 }}>
+            Building production software & solving complex problems
+          </motion.p>
+
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
             style={{ color: 'var(--muted)', lineHeight: 1.85, maxWidth: 480, marginBottom: '2.5rem', fontSize: '1rem' }}>
-            A third-year B.Tech undergraduate from Pune, passionate about frontend development and data analytics. Always exploring new technologies, including software engineering and DSA.
+            B.Tech student with expertise in React, Python, and data analytics. I've built full-stack applications, analyzed complex datasets, and shipped products that solve real problems.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}

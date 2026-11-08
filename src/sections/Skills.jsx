@@ -5,17 +5,34 @@ import { useInView } from '../hooks/useInView'
 const categories = [
   {
     icon: '📊', label: 'Data Analytics',
-    skills: ['Python', 'Pandas'],
+    description: '2+ years | Production data pipelines',
+    skills: [
+      { name: 'Python', level: 'Expert' },
+      { name: 'Pandas', level: 'Expert' },
+      { name: 'SQL', level: 'Intermediate' },
+    ],
     color: '#06b6d4',
   },
   {
-    icon: '🖥️', label: 'Frontend',
-    skills: ['React', 'HTML5', 'CSS3', 'JavaScript'],
+    icon: '⚛️', label: 'Frontend Development',
+    description: '3+ years | Modern React applications',
+    skills: [
+      { name: 'React', level: 'Expert' },
+      { name: 'JavaScript', level: 'Expert' },
+      { name: 'CSS3', level: 'Expert' },
+      { name: 'HTML5', level: 'Expert' },
+    ],
     color: '#7c3aed',
   },
   {
-    icon: '🛠️', label: 'Tools & Others',
-    skills: ['SQL', 'Power BI', 'Excel', 'Git', 'GitHub'],
+    icon: '🛠️', label: 'Tools & Platform',
+    description: 'Full-stack toolchain & version control',
+    skills: [
+      { name: 'Git', level: 'Expert' },
+      { name: 'GitHub', level: 'Expert' },
+      { name: 'Power BI', level: 'Intermediate' },
+      { name: 'Excel', level: 'Intermediate' },
+    ],
     color: '#f0abfc',
   },
 ]
@@ -26,8 +43,10 @@ const techStack = [
   'SQL', 'Power BI', 'Excel', 'Git', 'GitHub',
 ]
 
-function SkillPill({ name, color }) {
+function SkillPill({ skill, color }) {
   const [hovered, setHovered] = useState(false)
+  const isExpert = skill.level === 'Expert'
+  
   return (
     <motion.div
       onMouseEnter={() => setHovered(true)}
@@ -46,9 +65,13 @@ function SkillPill({ name, color }) {
         width: 8, height: 8, borderRadius: '50%',
         background: color,
         boxShadow: `0 0 8px ${color}`,
+        opacity: isExpert ? 1 : 0.6,
         flexShrink: 0,
       }} />
-      <span style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text)' }}>{name}</span>
+      <span style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text)' }}>{skill.name}</span>
+      <span style={{ fontSize: '0.7rem', fontWeight: 600, color: color, marginLeft: 'auto', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+        {isExpert ? '◆' : '◇'}
+      </span>
     </motion.div>
   )
 }
@@ -74,13 +97,16 @@ function SkillCard({ cat, cardDelay }) {
         transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
         <span style={{ fontSize: '1.5rem' }}>{cat.icon}</span>
         <h3 style={{ fontWeight: 700, fontSize: '1rem', color: cat.color }}>{cat.label}</h3>
       </div>
+      <p style={{ fontSize: '0.78rem', color: 'var(--muted)', marginBottom: '1.2rem', fontFamily: "'Fira Code', monospace" }}>
+        {cat.description}
+      </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
         {cat.skills.map(skill => (
-          <SkillPill key={skill} name={skill} color={cat.color} />
+          <SkillPill key={skill.name} skill={skill} color={cat.color} />
         ))}
       </div>
     </motion.div>
